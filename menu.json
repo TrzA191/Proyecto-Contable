@@ -1,0 +1,9 @@
+{
+    "menu": [
+        { "name": "Sección 1", "link": "#seccion1" },
+        { "name": "Sección 2", "link": "#seccion2" },
+        { "name": "Sección 3", "link": "#seccion3" },
+        { "name": "Sección 4", "link": "#seccion4" },
+        { "name": "Sección 5", "link": "#seccion5" }
+    ]
+}

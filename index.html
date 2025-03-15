@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión Contable</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Estilos personalizados -->
+    <link rel="stylesheet" href="styles/inicio.css">
+</head>
+<body>
+    <!-- Header con menú de navegación -->
+    <header class="bg-primary text-white">
+        <div class="container d-flex justify-content-between align-items-center py-3">
+            <h1 class="m-0">Gestión Contable</h1>
+        </div>
+    </header>
+
+    <main class="container my-4">
+        <!-- Sección del Menú -->
+        <section class="bg-light p-4 rounded mb-4 shadow-sm position-relative">
+            <nav class="nav-horizontal">
+                <ul class="nav justify-content-end">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/html/seccion1.html">Esquema Mayor</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#seccion2">Balanza de Comprobación</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#seccion3">Balance General</a>
+                    </li>
+                </ul>
+            </nav>
+        </section>
+
+        <!-- Formulario principal -->
+        <section class="mi-seccion bg-light p-4 rounded mb-4 shadow-sm">
+            <form class="row g-3">
+                <div class="col-md-6">
+                    <label for="nombre-completo" class="form-label">Nombre completo</label>
+                    <input id="nombre-completo" class="form-control" type="text" placeholder="Nombre completo">
+                </div>
+                <div class="col-md-6">
+                    <label for="category" class="form-label">Categoría</label>
+                    <select id="category" class="form-select">
+                        <!-- Opciones generadas dinámicamente -->
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label for="date-range-start" class="form-label">Fecha Inicio</label>
+                    <input id="date-range-start" type="date" class="form-control" placeholder="dd/mm/aaaa">
+                </div>
+                <div class="col-md-6">
+                    <label for="date-range-end" class="form-label">Fecha Fin</label>
+                    <input id="date-range-end" type="date" class="form-control" placeholder="dd/mm/aaaa">
+                </div>
+                <div class="col-md-6">
+                    <label for="nombre-operacion" class="form-label">Nombre de la operación</label>
+                    <input id="nombre-operacion" class="form-control" type="text" placeholder="Nombre de la operación">
+                </div>
+                <div class="col-md-6">
+                    <label for="descripcion-operacion" class="form-label">Descripción de la operación</label>
+                    <input id="descripcion-operacion" class="form-control" type="text" placeholder="Descripción de la operación">
+                </div>
+
+                <!-- Categorías Activo, Pasivo y Capital -->
+                <div class="fila-categorias-especifica d-flex gap-3">
+                    <div class="col-md-4">
+                        <label for="category1" class="form-label">Activo</label>
+                        <select id="category1" class="form-select"></select>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="category2" class="form-label">Pasivo</label>
+                        <select id="category2" class="form-select"></select>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="category3" class="form-label">Capital</label>
+                        <select id="category3" class="form-select"></select>
+                    </div>
+                </div>
+
+                <!-- Resumen Activo y Pasivo -->
+                <div class="col-md-6 bg-success text-white p-3 rounded shadow-sm text-center">
+                    <h3>Activo</h3>
+                    <input type="text" id="activo-cantidad" class="transparent-input form-control mx-auto" placeholder="Ingrese cantidad...">
+                </div>
+                <div class="col-md-6 bg-danger text-white p-3 rounded shadow-sm text-center">
+                    <h3>Pasivo</h3>
+                    <input type="text" id="pasivo-cantidad" class="transparent-input form-control mx-auto" placeholder="Ingrese cantidad...">
+                </div>
+
+                <!-- Botón Enviar -->
+                <div class="col-12 text-end">
+                    <button type="submit" class="btn btn-primary">Enviar</button>
+                </div>
+            </form>
+        </section>
+
+        <!-- Tabla de transacciones -->
+        <section class="bg-white p-4 rounded shadow-sm">
+            <h2 class="h5 mb-3">Transacciones</h2>
+            <table class="table table-striped table-bordered">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Descripción</th>
+                        <th scope="col">Debe</th>
+                        <th scope="col">Haber</th>
+                        <th scope="col">Saldo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>001</td>
+                        <td>Venta de productos</td>
+                        <td>5000</td>
+                        <td>0</td>
+                        <td>5000</td>
+                    </tr>
+                    <tr>
+                        <td>002</td>
+                        <td>Pago de servicios</td>
+                        <td>0</td>
+                        <td>1500</td>
+                        <td>-1500</td>
+                    </tr>
+                    <tr>
+                        <td>003</td>
+                        <td>Compra de materiales</td>
+                        <td>3000</td>
+                        <td>0</td>
+                        <td>3000</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-secondary text-white text-center py-3 mt-4">
+        <p>© 2025 Gestión Contable | Todos los derechos reservados</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/scripts/app.js"></script> <!-- Archivo JavaScript externo -->
+</body>
+</html>

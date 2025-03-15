@@ -1,0 +1,138 @@
+/* Estilos globales */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+}
+
+header h1 {
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.filters {
+    border: 1px solid #ddd;
+}
+
+.transactions {
+    border: 1px solid #ccc;
+}
+
+table {
+    text-align: center;
+}
+
+th, td {
+    padding: 10px;
+}
+
+footer p {
+    margin: 0;
+    font-size: 14px;
+}
+
+/* Estilo para las cajas de texto transparentes */
+.transparent-input {
+    background-color: rgba(255, 255, 255, 0.5); /* Fondo semi-transparente */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-align: center;
+    width: 80%; /* Más pequeñas */
+    padding: 5px;
+}
+
+.form{
+    border-color: rgb(145, 202, 202);
+}
+
+
+.mi-seccion {
+    border-radius: 10px;
+    border-top: 3px solid rgb(230, 228, 225); /* Cambia "orange" por el color que prefieras */
+    border-bottom: 4px solid rgb(230, 228, 225);; 
+    padding: 20px; /* Opcional, para dar espacio interno */
+}
+
+/* Archivo: styles.css */
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+.nav-fijo {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 200px;
+    height: 100%; /* Ocupa toda la altura de la pantalla */
+    background-color: #f8f9fa;
+    box-shadow: -2px 0px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+}
+
+.nav-item {
+    margin: 10px 0;
+}
+
+/* Archivo: styles.css */
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+.nav-horizontal {
+    display: flex;
+    justify-content: flex-end; /* Alinea el contenido horizontalmente a la derecha */
+    background-color: #f8f9fa;
+    padding: 10px 20px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.nav {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex; /* Hacer la lista de enlaces horizontal */
+    gap: 15px; /* Espaciado entre los elementos */
+}
+
+.nav-item {
+    margin: 0;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: black; /* Color del texto por defecto */
+    background-color: transparent; /* Fondo transparente por defecto */
+    padding: 5px; /* Espaciado para el efecto del cuadro */
+    border-radius: 5px; /* Bordes redondeados opcional */
+    transition: background-color 0.3s ease; /* Suaviza el cambio */
+}
+
+.nav-link:hover {
+    background-color: blue; /* Fondo azul al pasar el cursor */
+    color: white; /* Cambia el color del texto para mejor visibilidad */
+}
+
+
+
+.fila-categorias-especifica {
+    display: flex; /* Solo afectará al contenedor con esta clase */
+    justify-content: space-between; /* Espaciado uniforme */
+    gap: 20px; /* Espaciado opcional entre los elementos */
+}
+
+.fila-categorias-especifica .col-md-6 {
+    flex: 1; /* Asegura que las columnas sean proporcionales */
+}
