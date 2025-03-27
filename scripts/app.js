@@ -359,7 +359,80 @@ function generarCuadrosCuentas(datos) {
     }
 }
 
+function generarBalanzaComprobacion(datos) {
+    const tablaBalanza = document.getElementById('tabla-balanza');
+    tablaBalanza.innerHTML = '';
 
+    // Agrupar por cuenta (similar a la función del Libro Mayor)
+    const cuentas = {};
+
+    datos.forEach(item => {
+        if (!cuentas[item.cuenta]) {
+            cuentas[item.cuenta] = {
+                debe: 0,
+                haber: 0
+            };
+        }
+
+        if (item.debe) {
+            cuentas[item.cuenta].debe += item.debe;
+        }
+
+        if (item.haber) {
+            cuentas[item.cuenta].haber += item.haber;
+        }
+    });
+
+    // Generar filas para la balanza
+    for (const [nombreCuenta, datosCuenta] of Object.entries(cuentas)) {
+        const totalDebe = datosCuenta.debe;
+        const totalHaber = datosCuenta.haber;
+        
+        // Calcular saldos
+        const saldoDebe = totalDebe > totalHaber ? totalDebe - totalHaber : 0;
+        const saldoHaber = totalHaber > totalDebe ? totalHaber - totalDebe : 0;
+
+        const fila = document.createElement('tr');
+        fila.innerHTML = `
+            <td>${nombreCuenta}</td>
+            <td>$${totalDebe.toFixed(2)}</td>
+            <td>$${totalHaber.toFixed(2)}</td>
+            <td>${saldoDebe > 0 ? `$${saldoDebe.toFixed(2)}` : ''}</td>
+            <td>${saldoHaber > 0 ? `$${saldoHaber.toFixed(2)}` : ''}</td>
+        `;
+        
+        tablaBalanza.appendChild(fila);
+    }
+
+    // Agregar totales
+    const totales = Object.values(cuentas).reduce((acc, cuenta) => {
+        acc.totalDebe += cuenta.debe;
+        acc.totalHaber += cuenta.haber;
+        acc.totalSaldoDebe += cuenta.debe > cuenta.haber ? cuenta.debe - cuenta.haber : 0;
+        acc.totalSaldoHaber += cuenta.haber > cuenta.debe ? cuenta.haber - cuenta.debe : 0;
+        return acc;
+    }, { totalDebe: 0, totalHaber: 0, totalSaldoDebe: 0, totalSaldoHaber: 0 });
+
+    const filaTotales = document.createElement('tr');
+    filaTotales.className = 'table-active';
+    filaTotales.innerHTML = `
+        <td><strong>TOTALES</strong></td>
+        <td><strong>$${totales.totalDebe.toFixed(2)}</strong></td>
+        <td><strong>$${totales.totalHaber.toFixed(2)}</strong></td>
+        <td><strong>$${totales.totalSaldoDebe.toFixed(2)}</strong></td>
+        <td><strong>$${totales.totalSaldoHaber.toFixed(2)}</strong></td>
+    `;
+    
+    tablaBalanza.appendChild(filaTotales);
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Obtener datos de sessionStorage
+    const datosGuardados = JSON.parse(sessionStorage.getItem('datosContables')) || [];
+    
+    // Generar la balanza de comprobación
+    generarBalanzaComprobacion(datosGuardados);
+});
 
 function resetearDatos() {
     sessionStorage.removeItem('datosContables');
