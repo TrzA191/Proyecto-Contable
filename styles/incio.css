@@ -214,3 +214,34 @@ body {
 .text-right {
     text-align: right;
 }
+
+.table {
+    width: 100%;
+    background-color: white;
+    table-layout: fixed; /* Ancho uniforme en columnas */
+}
+
+th, td {
+    padding: 10px;
+    word-wrap: break-word;
+    text-align: center;
+}
+
+/* Define un ancho fijo para cada columna */
+.col-1, .col-2, .col-3, .col-4 {
+    width: 25%; /* Cada columna ocupa el 25% del ancho */
+}
+
+/* Colores para cada columna */
+.col-1 {
+    background-color: #fef4c5;
+}
+.col-2 {
+    background-color: #dbe9ff;
+}
+.col-3 {
+    background-color: #ffc8c8;
+}
+.col-4 {
+    background-color: #cfc5eb;
+}

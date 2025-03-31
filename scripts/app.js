@@ -8,12 +8,15 @@ const menudJson = {
             { "name": "Paquetes de llantas" }
         ],
         "ActivoNoCirculante": [
-            { "name": "Terrenos" },
-            { "name": "Edificios" },
-            { "name": "Vehículos" },
-            { "name": "Patentes" },
-            { "name": "Marcas registradas" }
-        ],
+    { "name": "Terrenos" },
+    { "name": "Edificios" },
+    { "name": "Vehículos" },
+    { "name": "Patentes" },
+    { "name": "Marcas registradas" },
+    { "name": "Depreciación acumulada - Edificios" },
+    { "name": "Depreciación acumulada - Vehículos" }
+]
+,
         "IVA": [
             { "name": "IVA acreditable" },
             { "name": "IVA por acreditar" },
