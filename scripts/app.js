@@ -442,3 +442,45 @@ function resetearDatos() {
     // Opcional: recargar la página
     location.reload();
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+    // Función para calcular la suma desde "Caja" hasta "Papeleria" en la columna 2
+    const calcularSumaActivoCirculante = () => {
+        let suma = 0;
+
+        // Selección de filas específicas en la tabla
+        const filas = document.querySelectorAll(".table tbody tr");
+        const nombresCuentas = [
+            "Caja",
+            "Inventarios",
+            "Mat. empaque",
+            "Rentas.pag x ant",
+            "IVA acreditado",
+            "IVA por acreditar",
+            "Clientes",
+            "Banco",
+            "Papeleria"
+        ];
+
+        filas.forEach(fila => {
+            const celdaNombre = fila.querySelector("td:first-child"); // Primera columna con los nombres
+            if (celdaNombre && nombresCuentas.includes(celdaNombre.textContent.trim())) {
+                const columnaValor = fila.querySelector("td:nth-child(3)"); // Columna 2 (índice 3)
+                if (columnaValor) {
+                    const valor = parseFloat(columnaValor.textContent.replace(/[$,]/g, "")) || 0;
+                    suma += valor;
+                }
+            }
+        });
+
+        // Actualizamos la fila "Suma activo circulante"
+        const totalFila = document.querySelector(".table tbody .total td:nth-child(4)");
+        if (totalFila) {
+            totalFila.textContent = `$${suma.toLocaleString()}.00`;
+        }
+    };
+
+    // Llamada a la función al cargar la página
+    calcularSumaActivoCirculante();
+});
+
