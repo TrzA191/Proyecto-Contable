@@ -3,12 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestión Contable</title>
-    <!-- Bootstrap CSS -->
+    <title>Gestión Contable - Balance General</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/styles/incio.css"> 
+    <link rel="stylesheet" href="/styles/incio.css">
 </head>
-<body>
+<body class="balance-general">
     <header class="bg-primary text-white">
         <div class="container d-flex justify-content-between align-items-center py-3">
             <h1 class="m-0" style="font-size: 1.8rem;">Gestión Contable</h1>
@@ -22,13 +21,13 @@
                     <li class="nav-item"><a class="nav-link" href="/index.html">Libro Diario</a></li>
                     <li class="nav-item"><a class="nav-link" href="/html/seccion1.html">Libro Mayor</a></li>
                     <li class="nav-item"><a class="nav-link" href="/html/seccion2.html">Balanza de Comprobación</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/html/seccion3.html">Balance General</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="/html/seccion3.html">Balance General</a></li>
                 </ul>
             </nav>
         </section>
 
         <div class="container mt-4">
-            <h2 class="text-center">Balance General al 12 de marzo de 2025</h2>
+            <h2 class="text-center">Balance General al <span id="fecha-balance">12 de marzo de 2025</span></h2>
             <div class="row">
                 <!-- Activo -->
                 <div class="col-md-6">
@@ -37,30 +36,28 @@
                         <thead>
                             <tr><th>Cuenta</th><th>1</th><th>2</th><th>3</th><th>4</th></tr>
                         </thead>
-                        <tbody>
-                            <tr><td>Caja</td><td></td><td>$962,920.00</td><td></td><td></td></tr>
-<tr><td>Inventarios</td><td></td><td>$3,560,000.00</td><td></td><td></td></tr>
-<tr><td>Mat. empaque</td><td></td><td></td><td></td><td></td></tr>
-<tr><td>Rentas.pag x ant</td><td></td><td>0.00</td><td></td><td></td></tr>
-<tr><td>IVA acreditado</td><td></td><td>$3,520.00</td><td></td><td></td></tr>
-<tr><td>IVA por acreditar</td><td></td><td>$4,400.00</td><td></td><td></td></tr>
-<tr><td>Clientes</td><td></td><td>$10,800.00</td><td></td><td></td></tr>
-<tr><td>Banco</td><td></td><td>$45,360.00</td><td></td><td></td></tr>
-<tr><td>Papeleria</td><td></td><td>$250.00</td><td></td><td></td></tr>
-
-
-                            <tr class="total"><td><strong>Suma activo circulante</strong></td><td></td><td></td><td>$,582,250.00</td><td></td></tr>
+                        <tbody id="activo-circulante">
+                            <tr data-cuenta="Caja"><td>Caja</td><td></td><td class="valor"></td><td></td><td></td></tr>
+                            <tr data-cuenta="Inventarios"><td>Inventarios</td><td></td><td class="valor"></td><td></td><td></td></tr>
+                            <tr data-cuenta="Mat. empaque"><td>Mat. empaque</td><td></td><td class="valor"></td><td></td><td></td></tr>
+                            <tr data-cuenta="Rentas.pag x ant"><td>Rentas.pag x ant</td><td></td><td class="valor"></td><td></td><td></td></tr>
+                            <tr data-cuenta="IVA acreditado"><td>IVA acreditado</td><td></td><td class="valor"></td><td></td><td></td></tr>
+                            <tr data-cuenta="IVA por acreditar"><td>IVA por acreditar</td><td></td><td class="valor"></td><td></td><td></td></tr>
+                            <tr data-cuenta="Clientes"><td>Clientes</td><td></td><td class="valor"></td><td></td><td></td></tr>
+                            <tr data-cuenta="Banco"><td>Banco</td><td></td><td class="valor"></td><td></td><td></td></tr>
+                            <tr data-cuenta="Papeleria"><td>Papeleria</td><td></td><td class="valor"></td><td></td><td></td></tr>
+                            <tr class="total"><td><strong>Suma activo circulante</strong></td><td></td><td></td><td class="suma-circulante"></td><td></td></tr>
                         </tbody>
                     </table>
 
                     <h4 class="text-success">ACTIVO NO CIRCULANTE</h4>
                     <table class="table table-bordered text-center">
-                        <tbody>
-                            <tr><td>Terrenos</td><td></td><td>$6,000,000.00</td><td></td><td></td></tr>
-                            <tr><td>Edificios</td><td>$4,000,000.00</td><td></td><td></td><td></td></tr>
-                            <tr><td>Dep. A Ed</td><td>$16,666.00</td><td>$3,983,334.00</td><td></td><td></td></tr>
-                            <tr class="total"><td><strong>Suma activo no circulante</strong></td><td></td><td></td><td>$9,983,334.00</td><td></td></tr>
-                            <tr class="total"><td><strong>Total Activos</strong></td><td></td><td></td><td>$14,565,584.00</td><td></td></tr>
+                        <tbody id="activo-no-circulante">
+                            <tr data-cuenta="Terrenos"><td>Terrenos</td><td></td><td class="valor"></td><td></td><td></td></tr>
+                            <tr data-cuenta="Edificios"><td>Edificios</td><td class="valor"></td><td></td><td></td><td></td></tr>
+                            <tr data-cuenta="Dep. A Ed"><td>Dep. A Ed</td><td class="valor"></td><td class="valor"></td><td></td><td></td></tr>
+                            <tr class="total"><td><strong>Suma activo no circulante</strong></td><td></td><td></td><td class="suma-no-circulante"></td><td></td></tr>
+                            <tr class="total"><td><strong>Total Activos</strong></td><td></td><td></td><td class="total-activos"></td><td></td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -72,23 +69,21 @@
                         <thead>
                             <tr><th>Cuenta</th><th>1</th><th>2</th><th>3</th><th>4</th></tr>
                         </thead>
-                        <tbody>
-                            <tr><td>Proveedores</td><td></td><td></td><td>$23,200.00</td><td></td></tr>
-                            <tr><td>Acreedores</td><td></td><td></td><td>$8,700.00</td><td></td></tr>
-                            <tr><td>IVA trasladado</td><td></td><td></td><td>$128,800.00</td><td></td></tr>
-                            <tr><td>IVA x trasladar</td><td></td><td></td><td>$800.00</td><td></td></tr>
-                            <tr><td>Anticipo C</td><td></td><td></td><td>$800.00</td><td></td></tr>
-                            <tr class="total"><td><strong>Suma pasivo corto plazo</strong></td><td></td><td></td><td>$161,500.00</td><td></td></tr>
-                            <tr><td>Capital Contable</td><td></td><td></td><td>$14,100,000.00</td><td></td></tr>
-                            <tr><td>Capital contribuido</td><td></td><td></td><td>$14,100,000.00</td><td></td></tr>
-                            <tr><td>Capital Social</td><td></td><td></td><td>$14,100,000.00</td><td></td></tr>
-                            <tr><td>Capital ganado</td><td></td><td></td><td>$14,100,000.00</td><td></td></tr>
-                            <tr><td>Utilidad del período</td><td></td><td></td><td>$304,084.00</td><td></td></tr>
-                            <tr class="total"><td><strong>Suma Pasivo + Capital</strong></td><td></td><td></td><td>$14,565,584.00</td><td></td></tr>
+                        <tbody id="pasivo-capital">
+                            <tr data-cuenta="Proveedores"><td>Proveedores</td><td></td><td></td><td class="valor"></td><td></td></tr>
+                            <tr data-cuenta="Acreedores"><td>Acreedores</td><td></td><td></td><td class="valor"></td><td></td></tr>
+                            <tr data-cuenta="IVA trasladado"><td>IVA trasladado</td><td></td><td></td><td class="valor"></td><td></td></tr>
+                            <tr data-cuenta="IVA x trasladar"><td>IVA x trasladar</td><td></td><td></td><td class="valor"></td><td></td></tr>
+                            <tr data-cuenta="Anticipo C"><td>Anticipo C</td><td></td><td></td><td class="valor"></td><td></td></tr>
+                            <tr class="total"><td><strong>Suma pasivo corto plazo</strong></td><td></td><td></td><td class="suma-pasivo"></td><td></td></tr>
+                            <tr data-cuenta="Capital Contable"><td>Capital Contable</td><td></td><td></td><td class="valor"></td><td></td></tr>
+                            <tr data-cuenta="Capital contribuido"><td>Capital contribuido</td><td></td><td></td><td class="valor"></td><td></td></tr>
+                            <tr data-cuenta="Capital Social"><td>Capital Social</td><td></td><td></td><td class="valor"></td><td></td></tr>
+                            <tr data-cuenta="Capital ganado"><td>Capital ganado</td><td></td><td></td><td class="valor"></td><td></td></tr>
+                            <tr data-cuenta="Utilidad del período"><td>Utilidad del período</td><td></td><td></td><td class="valor"></td><td></td></tr>
+                            <tr class="total"><td><strong>Suma Pasivo + Capital</strong></td><td></td><td></td><td class="total-pasivo-capital"></td><td></td></tr>
                         </tbody>
                     </table>
-
-                    
                 </div>
             </div>
         </div>
@@ -98,7 +93,6 @@
         <p>© 2025 Gestión Contable | Todos los derechos reservados</p>
     </footer>
 
-    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/scripts/app.js"></script>
 </body>

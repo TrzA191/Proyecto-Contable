@@ -484,3 +484,109 @@ document.addEventListener("DOMContentLoaded", () => {
     calcularSumaActivoCirculante();
 });
 
+function generarBalanceGeneral() {
+    // Obtener datos de la balanza de comprobación
+    const datosBalanza = JSON.parse(sessionStorage.getItem('datosContables')) || [];
+
+    // Procesar los datos para obtener saldos
+    const saldos = {};
+    datosBalanza.forEach(item => {
+        if (!saldos[item.cuenta]) {
+            saldos[item.cuenta] = { debe: 0, haber: 0 };
+        }
+        if (item.debe) saldos[item.cuenta].debe += item.debe;
+        if (item.haber) saldos[item.cuenta].haber += item.haber;
+    });
+
+    // Mapeo de cuentas específico para casos especiales
+    const mapeoEspecial = {
+        "IVA por accediar": "IVA por acreditar" // Corrige el typo
+    };
+
+    // Actualizar todas las cuentas del balance
+    document.querySelectorAll('[data-cuenta]').forEach(row => {
+        const cuentaBalance = row.getAttribute('data-cuenta');
+        const valorCells = row.querySelectorAll('.valor');
+
+        // Buscar la cuenta en los saldos (incluyendo mapeo especial)
+        let cuentaKey = cuentaBalance;
+        if (mapeoEspecial[cuentaBalance]) {
+            cuentaKey = mapeoEspecial[cuentaBalance];
+        }
+
+        if (saldos[cuentaKey]) {
+            const esActivo = row.closest('#activo-circulante, #activo-no-circulante');
+            const esPasivo = row.closest('#pasivo-capital');
+
+            valorCells.forEach(cell => {
+                // Determinar si es columna de debe (primera columna con clase valor)
+                const esDebe = cell === valorCells[0] && valorCells.length > 1;
+
+                let saldo = 0;
+                if (esActivo) {
+                    saldo = saldos[cuentaKey].debe - saldos[cuentaKey].haber;
+                } else if (esPasivo) {
+                    saldo = saldos[cuentaKey].haber - saldos[cuentaKey].debe;
+                }
+
+                // Mostrar saldo aunque sea cero o negativo
+                cell.textContent = `$${saldo.toFixed(2)}`;
+            });
+        }
+    });
+
+    // Calcular sumas y totales
+    calcularSumasBalanceGeneral();
+
+    // Actualizar fecha
+    const fechaElement = document.getElementById('fecha-balance');
+    if (fechaElement) {
+        const hoy = new Date();
+        fechaElement.textContent = hoy.toLocaleDateString('es-ES', {
+            day: '2-digit', month: 'long', year: 'numeric'
+        });
+    }
+}
+
+function calcularSumasBalanceGeneral() {
+    // Suma Activo Circulante
+    let sumaCirculante = 0;
+    document.querySelectorAll('#activo-circulante tr[data-cuenta] td.valor').forEach(td => {
+        if (td.textContent) {
+            sumaCirculante += parseFloat(td.textContent.replace(/[^0-9.-]/g, ''));
+        }
+    });
+    document.querySelector('.suma-circulante').textContent = `$${sumaCirculante.toFixed(2)}`;
+
+    // Suma Activo No Circulante
+    let sumaNoCirculante = 0;
+    document.querySelectorAll('#activo-no-circulante tr[data-cuenta] td.valor').forEach(td => {
+        if (td.textContent) {
+            sumaNoCirculante += parseFloat(td.textContent.replace(/[^0-9.-]/g, ''));
+        }
+    });
+    document.querySelector('.suma-no-circulante').textContent = `$${sumaNoCirculante.toFixed(2)}`;
+
+    // Total Activos
+    const totalActivos = sumaCirculante + sumaNoCirculante;
+    document.querySelector('.total-activos').textContent = `$${totalActivos.toFixed(2)}`;
+
+    // Suma Pasivo
+    let sumaPasivo = 0;
+    document.querySelectorAll('#pasivo-capital tr[data-cuenta] td.valor').forEach(td => {
+        if (td.textContent && !td.closest('.total')) {
+            sumaPasivo += parseFloat(td.textContent.replace(/[^0-9.-]/g, ''));
+        }
+    });
+    document.querySelector('.suma-pasivo').textContent = `$${sumaPasivo.toFixed(2)}`;
+
+    // Total Pasivo + Capital
+    document.querySelector('.total-pasivo-capital').textContent = `$${totalActivos.toFixed(2)}`;
+}
+
+// Ejecutar al cargar la página del balance general
+document.addEventListener("DOMContentLoaded", function () {
+    if (document.querySelector("body.balance-general")) {
+        generarBalanceGeneral();
+    }
+});
