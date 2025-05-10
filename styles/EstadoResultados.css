@@ -1,0 +1,13 @@
+.estado-resultados-highlight {
+      background-color: #a0764a;
+    }
+    .estado-resultados-bordered {
+      border: 1px solid #6b1d1d;
+    }
+    .estado-resultados-table td,
+    .estado-resultados-table th {
+      vertical-align: middle;
+    }
+    .estado-resultados-title {
+      font-weight: bold;
+    }

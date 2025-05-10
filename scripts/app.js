@@ -5,7 +5,11 @@ const menudJson = {
             { "name": "Caja" },
             { "name": "Banco" },
             { "name": "Inventario(Mercancia)" },
-            { "name": "Paquetes de llantas" }
+            { "name": "Paquetes de llantas" },
+            { "name": "costo de venta" },
+            { "name": "Ventas" },
+            { "name": "gastos generales" }
+
         ],
         "ActivoNoCirculante": [
     { "name": "Terrenos" },
@@ -361,7 +365,161 @@ function generarCuadrosCuentas(datos) {
         contenedor.appendChild(tabla);
     }
 }
+function actualizarEstadoResultadosDesdeLibroMayor(cuentas) {
+    const cuentasImportantes = {
+        "Ventas": "ventas",
+        "Costo de lo vendido": "costo-venta",
+        "Gastos Generales": "gastos-generales"
+    };
 
+    const resultados = {};
+
+    for (const [nombreCuenta, datosCuenta] of Object.entries(cuentas)) {
+        const totalDebe = datosCuenta.debe;
+        const totalHaber = datosCuenta.haber;
+
+        // Ahora el saldo respeta la naturaleza contable
+        let saldo = totalHaber - totalDebe;
+
+        if (cuentasImportantes[nombreCuenta]) {
+            resultados[cuentasImportantes[nombreCuenta]] = saldo;
+        }
+    }
+
+    const ventas = resultados["ventas"] || 0;
+    const costoVenta = resultados["costo-venta"] || 0;
+    const gastosGenerales = resultados["gastos-generales"] || 0;
+
+    const utilidadBruta = ventas - costoVenta;
+    const utilidadPeriodo = utilidadBruta - gastosGenerales;
+    const isr = utilidadPeriodo * 0.30;
+    const ptu = utilidadPeriodo * 0.10;
+    const utilidadNeta = utilidadPeriodo - isr - ptu;
+
+    document.getElementById("ventas").textContent = ventas.toFixed(2);
+    document.getElementById("costo-venta").textContent = costoVenta.toFixed(2);
+    document.getElementById("gastos-generales").textContent = gastosGenerales.toFixed(2);
+    document.getElementById("utilidad-bruta").textContent = utilidadBruta.toFixed(2);
+    document.getElementById("utilidad-periodo").textContent = utilidadPeriodo.toFixed(2);
+    document.getElementById("utilidad-periodo-2").textContent = utilidadPeriodo.toFixed(2);
+    document.getElementById("isr").textContent = isr.toFixed(2);
+    document.getElementById("ptu").textContent = ptu.toFixed(2);
+    document.getElementById("utilidad-neta").textContent = utilidadNeta.toFixed(2);
+}
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    const datos = JSON.parse(sessionStorage.getItem('datosContables')) || [];
+
+    // Agrupar por cuenta
+    const saldos = {};
+
+    datos.forEach(item => {
+        if (!saldos[item.cuenta]) {
+            saldos[item.cuenta] = { debe: 0, haber: 0 };
+        }
+
+        if (item.debe) saldos[item.cuenta].debe += item.debe;
+        if (item.haber) saldos[item.cuenta].haber += item.haber;
+    });
+
+    // Obtener saldos netos
+    function obtenerSaldo(cuenta) {
+        const cuentaData = saldos[cuenta];
+        if (!cuentaData) return 0;
+        return cuentaData.haber + cuentaData.debe;
+    }
+
+    const ventas = obtenerSaldo("Ventas");
+    const costoVenta = obtenerSaldo("costo de venta");
+    const gastosGenerales = obtenerSaldo("gastos generales");
+
+    const utilidadBruta = ventas - costoVenta;
+    const utilidadPeriodo = utilidadBruta - gastosGenerales;
+    const isr = utilidadPeriodo * 0.30;
+    const ptu = utilidadPeriodo * 0.10;
+    const utilidadNeta = isr - ptu;
+
+    // Insertar en el HTML
+    document.getElementById("ventas").innerText = ventas.toFixed(2);
+    document.getElementById("costo-venta").innerText = costoVenta.toFixed(2);
+    document.getElementById("utilidad-bruta").innerText = utilidadBruta.toFixed(2);
+    document.getElementById("gastos-generales").innerText = gastosGenerales.toFixed(2);
+    document.getElementById("utilidad-periodo").innerText = utilidadPeriodo.toFixed(2);
+    document.getElementById("utilidad-periodo-2").innerText = utilidadPeriodo.toFixed(2);
+    document.getElementById("isr").innerText = isr.toFixed(2);
+    document.getElementById("ptu").innerText = ptu.toFixed(2);
+    document.getElementById("utilidad-neta").innerText = utilidadNeta.toFixed(2);
+});
+
+function actualizarBalanceGeneralDesdeLibroMayor(cuentas) {
+    const cuentasBalance = {
+        "Caja": "activo-caja",
+        "Bancos": "activo-bancos",
+        "Clientes": "activo-clientes",
+        "Inventario": "activo-inventario",
+        "Mobiliario": "activo-mobiliario",
+        "Proveedores": "pasivo-proveedores",
+        "Acreedores": "pasivo-acreedores",
+        "Capital": "capital-social"
+    };
+
+    const totales = {
+        activo: 0,
+        pasivo: 0,
+        capital: 0
+    };
+
+    for (const [nombreCuenta, datosCuenta] of Object.entries(cuentas)) {
+        const totalDebe = datosCuenta.debe;
+        const totalHaber = datosCuenta.haber;
+        let saldo = totalDebe - totalHaber;
+
+        const idElemento = cuentasBalance[nombreCuenta];
+        if (idElemento) {
+            // Si la cuenta es del activo, mostramos el saldo tal cual
+            if (idElemento.startsWith("activo")) {
+                totales.activo += saldo;
+            } 
+            // Si es pasivo o capital, invertimos el signo (naturaleza)
+            else if (idElemento.startsWith("pasivo")) {
+                totales.pasivo += -saldo;
+                saldo = -saldo;
+            } 
+            else if (idElemento.startsWith("capital")) {
+                totales.capital += -saldo;
+                saldo = -saldo;
+            }
+
+            document.getElementById(idElemento).textContent = saldo.toFixed(2);
+        }
+    }
+
+    const totalPasivoCapital = totales.pasivo + totales.capital;
+
+    document.getElementById("total-activo").textContent = totales.activo.toFixed(2);
+    document.getElementById("total-pasivo").textContent = totales.pasivo.toFixed(2);
+    document.getElementById("total-capital").textContent = totales.capital.toFixed(2);
+    document.getElementById("total-pasivo-capital").textContent = totalPasivoCapital.toFixed(2);
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    const datos = JSON.parse(sessionStorage.getItem('datosContables')) || [];
+
+    const saldos = {};
+
+    datos.forEach(item => {
+        if (!saldos[item.cuenta]) {
+            saldos[item.cuenta] = { debe: 0, haber: 0 };
+        }
+        if (item.debe) saldos[item.cuenta].debe += item.debe;
+        if (item.haber) saldos[item.cuenta].haber += item.haber;
+    });
+
+    actualizarBalanceGeneralDesdeLibroMayor(saldos);
+});
+
+ 
 function generarBalanzaComprobacion(datos) {
     const tablaBalanza = document.getElementById('tabla-balanza');
     tablaBalanza.innerHTML = '';
@@ -590,3 +748,7 @@ document.addEventListener("DOMContentLoaded", function () {
         generarBalanceGeneral();
     }
 });
+
+
+
+// Función para generar el estado de resultados
